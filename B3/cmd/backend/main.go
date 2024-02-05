@@ -14,11 +14,13 @@ import (
 )
 
 const (
-	projectID               = "hot-maze"
-	backendBaseURL          = "https://hot-maze-udtcugbenq-uc.a.run.app"
-	storageServiceAccountID = "ephemeral-storage@hot-maze.iam.gserviceaccount.com"
-	bucket                  = "hot-maze.appspot.com"
+	projectID               = "hot-maze-2"
+	backendBaseURL          = "https://hot-maze-2-3e5dbjxtxq-uc.a.run.app"
+	storageServiceAccountID = "ephemeral-storage@hot-maze-2.iam.gserviceaccount.com"
+	bucket                  = "hot-maze-2"
 	fileDeleteAfter         = 9 * time.Minute
+	taskQueue               = "projects/hot-maze-2/locations/us-central1/queues/b3-file-expiry"
+	secretPKPath            = "projects/700343211022/secrets/B3-storage-private-key/versions/latest"
 )
 
 func main() {
@@ -40,7 +42,7 @@ func main() {
 	sa, errSA := storageClient.ServiceAccount(ctx, "hot-maze")
 	log.Println("storageClient.ServiceAccount is", sa, errSA)
 
-	storagePrivateKey, errSecret := hotmaze.AccessSecretVersion("projects/230384242501/secrets/B3-storage-private-key/versions/latest")
+	storagePrivateKey, errSecret := hotmaze.AccessSecretVersion(secretPKPath)
 	if errSecret != nil {
 		// log.Fatal("Couldn't read Storage service account private key:", err)
 		log.Println("Couldn't read Storage service account private key:", errSecret)
@@ -54,7 +56,7 @@ func main() {
 		StoragePrivateKey:   storagePrivateKey,
 		StorageBucket:       bucket,
 		StorageFileTTL:      fileDeleteAfter,
-		CloudTasksQueuePath: "projects/hot-maze/locations/us-central1/queues/b3-file-expiry",
+		CloudTasksQueuePath: taskQueue,
 	}
 	server.RegisterHandlers()
 

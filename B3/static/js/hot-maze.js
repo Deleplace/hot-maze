@@ -227,8 +227,13 @@ async function requestGcsUrls() {
                + `&filename=${encodeURIComponent(resourceFile.name)}`;
   let url = `${endpoint}?${params}`;
   return fetch(url, {method:"POST"})
-    .catch(showError)
-    .then(response => response.json());
+    .then( async response => {
+        if(!response.ok) {
+          throw new Error(`Code ${response.status} - ${await response.text()}`);
+        }
+        return response.json();
+      })
+    .catch(showError);
 }
 
 async function doUpload(gcsUrls) {

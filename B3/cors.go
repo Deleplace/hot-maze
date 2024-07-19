@@ -13,8 +13,7 @@ func (s *Server) accessControlAllowHotMaze(w http.ResponseWriter, r *http.Reques
 	// Specific hosts.
 	whiteList := []string{
 		"https://hotmaze.io",
-		// "https://hot-maze-udtcugbenq-uc.a.run.app",   // should not be needed
-		// "https://hot-maze-2-3e5dbjxtxq-uc.a.run.app", // should not be needed
+		"https://hot-maze-2-3e5dbjxtxq-uc.a.run.app", // needed?
 		s.BackendBaseURL,
 		// For local testing.
 		"http://localhost:8080",

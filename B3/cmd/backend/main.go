@@ -15,7 +15,7 @@ import (
 
 const (
 	projectID               = "hot-maze-2"
-	backendBaseURL          = "https://hot-maze-2-3e5dbjxtxq-uc.a.run.app"
+	backendBaseURL          = "https://hotmaze.io"
 	storageServiceAccountID = "ephemeral-storage@hot-maze-2.iam.gserviceaccount.com"
 	bucket                  = "hot-maze-2"
 	fileDeleteAfter         = 9 * time.Minute
@@ -29,7 +29,9 @@ func main() {
 	log.Println("GOOGLE_APPLICATION_CREDENTIALS =", os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 	// log.Println(os.Environ())
 	cred, errCred := google.FindDefaultCredentials(ctx)
-	log.Println("errCred =", errCred)
+	if errCred != nil {
+		log.Println("errCred =", errCred)
+	}
 	if cred != nil {
 		log.Println("FindDefaultCredentials =", string(cred.JSON))
 	}
@@ -39,7 +41,7 @@ func main() {
 		// log.Fatal("Couldn't create Storage client:", err)
 		log.Println("Couldn't create Storage client:", err)
 	}
-	sa, errSA := storageClient.ServiceAccount(ctx, "hot-maze")
+	sa, errSA := storageClient.ServiceAccount(ctx, projectID)
 	log.Println("storageClient.ServiceAccount is", sa, errSA)
 
 	storagePrivateKey, errSecret := hotmaze.AccessSecretVersion(secretPKPath)

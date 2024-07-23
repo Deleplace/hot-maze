@@ -164,3 +164,17 @@ ol.steps {
 #expirationZone > p {
   margin: 0;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #012;
+    color: #DDD;
+  }
+  #help,
+  #resourceUpload {
+    color: #111;
+  }
+  #expirationZone {
+    color: #999;
+  }
+}

@@ -8,6 +8,7 @@ import (
 
 // CORS
 func (s Server) accessControlAllowHotMaze(w http.ResponseWriter, r *http.Request) error {
+	w.Header().Add("Vary", "Origin")
 	origin := r.Header.Get("Origin")
 	origin = strings.TrimSpace(origin)
 
